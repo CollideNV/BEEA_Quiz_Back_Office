@@ -35,7 +35,7 @@ jobs:
       - name: Deploy to AWS
         run: |
           ls
-          sam deploy -t target/sam.native.yaml -g
+          sam deploy -t target/sam.native.yaml
       - uses: actions/setup-python@v3
         with:
           python-version: "3.8"
