@@ -33,7 +33,7 @@ jobs:
       - name: Log Info
         run: ls
       - name: Deploy to AWS
-        run: sam deploy -t target/sam.native.yaml -g
+        run: sam deploy -t sam.native.yaml -g
       - uses: actions/setup-python@v3
         with:
           python-version: "3.8"
