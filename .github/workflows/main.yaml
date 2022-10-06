@@ -12,11 +12,8 @@ jobs:
           version: 'latest'
           java-version: '17'
           components: 'native-image'
+          cache: maven
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Restore Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: restore
       - name: Build with Maven
         run: mvn install -Dnative
       - name: Archive code coverage results
@@ -24,10 +21,6 @@ jobs:
         with:
           name: target
           path: target
-      - name: Save Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: save
 
   deploy-to-aws:
     needs: build-native
