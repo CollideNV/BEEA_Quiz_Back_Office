@@ -2,11 +2,11 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "sam-app"
+stack_name = "quiz-back-office"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1dmffefx1eb1c"
-s3_prefix = "sam-app"
+s3_prefix = "quiz-back-office"
 region = "eu-central-1"
-confirm_changeset = true
+confirm_changeset = false
 capabilities = "CAPABILITY_IAM"
 disable_rollback = true
 image_repositories = []
