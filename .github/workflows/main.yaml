@@ -32,10 +32,6 @@ jobs:
         with:
           name: target
           path: target
-      - name: Deploy to AWS
-        run: |
-          ls
-          sam deploy -t target/sam.native.yaml
       - uses: actions/setup-python@v3
         with:
           python-version: "3.8"
@@ -45,3 +41,5 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
+      - name: Deploy to AWS
+        run: sam deploy -t target/sam.native.yaml --stack-name quiz-back-office --region eu-central-1 --s3-bucket quiz-back-office --s3-prefix=quiz-back-office --capabilities CAPABILITY_IAM
