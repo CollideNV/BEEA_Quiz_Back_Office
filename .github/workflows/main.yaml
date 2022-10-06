@@ -30,13 +30,7 @@ jobs:
         with:
           name: target
       - name: Log Info
-        run: |
-          echo "GRAALVM_HOME: $GRAALVM_HOME"
-          echo "JAVA_HOME: $JAVA_HOME"
-          java --version
-          gu --version
-          native-image --version
-          ls
+        run: ls
       - name: Deploy to AWS
         run: sam deploy -t target/sam.native.yaml -g
       - uses: actions/setup-python@v3
