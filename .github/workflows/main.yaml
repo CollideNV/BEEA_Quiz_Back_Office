@@ -13,20 +13,8 @@ jobs:
           java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Log Info
-        run: |
-          echo "GRAALVM_HOME: $GRAALVM_HOME"
-          echo "JAVA_HOME: $JAVA_HOME"
-          java --version
-          gu --version
-          native-image --version
       - name: Build with Maven
         run: mvn install -Dnative
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v3
-        with:
-          name: target
-          path: target
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
         with:
@@ -37,9 +25,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: target
+      - name: Log Info
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          gu --version
+          native-image --version
+          ls
       - name: Deploy to AWS
         run: sam deploy -t target/sam.native.yaml -g
