@@ -21,8 +21,8 @@ public class QuizQuery {
 
 
     @Data
-    private class QuizView {
+    static class QuizView {
         @NonNull
-        String id;
+        private String id;
     }
 }
