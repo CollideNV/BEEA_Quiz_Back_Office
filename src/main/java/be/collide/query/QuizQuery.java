@@ -1,5 +1,6 @@
 package be.collide.query;
 
+import io.quarkus.security.Authenticated;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Path("/quiz")
+@Authenticated
 public class QuizQuery {
 
     @GET
