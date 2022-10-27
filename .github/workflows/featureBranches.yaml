@@ -1,7 +1,7 @@
-name: Install Native Lambda
+name: Mvn Clean Install
 on:
   push:
-    branches: [ "!domain-git-action" ]
+    branches: [ "!main" ]
 jobs:
   build-native:
     runs-on: ubuntu-latest
