@@ -1,7 +1,8 @@
 name: Mvn Install
 on:
   push:
-    branches: [ "!main" ]
+    branches:
+      - '!main'
 jobs:
   build-native:
     runs-on: ubuntu-latest
