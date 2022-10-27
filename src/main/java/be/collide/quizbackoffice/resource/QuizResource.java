@@ -5,7 +5,7 @@ import be.collide.quizbackoffice.service.QuizService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,8 +28,12 @@ public class QuizResource {
     }
 
     @POST
-    public void add(Quiz quiz) {
+    public Response add(Quiz quiz, @Context UriInfo uriInfo) {
         service.create(quiz);
+
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+        uriBuilder.path(quiz.getId().toString());
+        return Response.created(uriBuilder.build()).build();
     }
 
     @PUT

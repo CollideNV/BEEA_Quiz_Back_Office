@@ -66,14 +66,15 @@ public class Quiz {
                     hardCount++;
             }
         }
-
-        long averageWeightedDifficulty = (easyCount * easyWeight + mediumCount * mediumWeight + hardCount * hardWeight) / this.questions.size();
-        if (averageWeightedDifficulty < 1.75) {
-            this.setDifficulty(Difficulty.EASY);
-        } else if (averageWeightedDifficulty < 2.25) {
-            this.setDifficulty(Difficulty.MEDIUM);
-        } else {
-            this.setDifficulty(Difficulty.HARD);
+        if (this.questions.size() > 0) {
+            long averageWeightedDifficulty = (easyCount * easyWeight + mediumCount * mediumWeight + hardCount * hardWeight) / this.questions.size();
+            if (averageWeightedDifficulty < 1.75) {
+                this.setDifficulty(Difficulty.EASY);
+            } else if (averageWeightedDifficulty < 2.25) {
+                this.setDifficulty(Difficulty.MEDIUM);
+            } else {
+                this.setDifficulty(Difficulty.HARD);
+            }
         }
     }
 }
