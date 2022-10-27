@@ -7,13 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: graalvm/setup-graalvm@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          version: 'latest'
           java-version: '17'
-          components: 'native-image'
-          cache: maven
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          distribution: 'adopt'
       - name: Setup DynamoDB Local
         uses: rrainn/dynamodb-action@v2.0.1
         with:
