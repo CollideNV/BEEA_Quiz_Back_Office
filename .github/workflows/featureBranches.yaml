@@ -1,7 +1,7 @@
 name: Install Native Lambda
 on:
   push:
-    branches: [ "!main" ]
+    branches: [ "!domain-git-action" ]
 jobs:
   build-native:
     runs-on: ubuntu-latest
