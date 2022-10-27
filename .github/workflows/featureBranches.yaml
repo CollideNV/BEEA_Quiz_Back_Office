@@ -1,4 +1,4 @@
-name: Mvn Clean Install
+name: Mvn Install
 on:
   push:
     branches: [ "!main" ]
