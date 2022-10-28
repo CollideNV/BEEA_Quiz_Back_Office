@@ -2,7 +2,10 @@ package be.collide.quizbackoffice.domain;
 
 import be.collide.quizbackoffice.util.converter.LocalDateTimeToStringTypeConverter;
 import be.collide.quizbackoffice.util.converter.UUIDToStringConverter;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbConvertedBy;
@@ -16,7 +19,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
 @AllArgsConstructor
 @DynamoDbBean
 public class Quiz {

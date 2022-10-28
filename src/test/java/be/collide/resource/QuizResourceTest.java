@@ -3,6 +3,7 @@ package be.collide.resource;
 import be.collide.quizbackoffice.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,13 +95,13 @@ public class QuizResourceTest {
                 .statusCode(204);
 
 
+
         Quiz retrievedQuizAfterUpdate = given()
                 .when().get(url)
                 .then()
                 .extract().as(Quiz.class);
 
-
-        assertEquals(retrievedQuizAfterUpdate.getQuestions(), updatedQuiz.getQuestions());
+        Assertions.assertThat(retrievedQuizAfterUpdate.getQuestions()).usingRecursiveComparison().isEqualTo(updatedQuiz.getQuestions());
 
         //Delete Quiz
         given().when().delete(url).then().statusCode(204);
