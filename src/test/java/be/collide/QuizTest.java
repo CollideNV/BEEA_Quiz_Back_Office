@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -25,15 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @QuarkusTest
 public class QuizTest {
 
-    @Inject()
-    DynamoDbClient dynamoDbClient;
-
     @Inject
     DynamoDbEnhancedClient client;
 
-
     @BeforeEach
-    void beforeEach() {
+    void setUp() {
         DynamoDbTable<Quiz> quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
 
         quizTable.createTable(builder -> builder
@@ -42,6 +37,7 @@ public class QuizTest {
                         .writeCapacityUnits(10L)
                         .build())
         );
+
     }
 
     @AfterEach
@@ -51,7 +47,7 @@ public class QuizTest {
     }
 
     @Test
-    void name() {
+    void createQuiz() {
         Quiz quiz = new Quiz(null, "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), Collections.EMPTY_LIST);
         String url = given()
                 .log().uri()
