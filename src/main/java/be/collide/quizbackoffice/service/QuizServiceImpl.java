@@ -32,7 +32,9 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public void create(Quiz quiz) {
 
+
         quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
+
 
         quiz.setId(UUID.randomUUID());
         quiz.getQuestions().forEach(question -> question.setId(UUID.randomUUID()));
