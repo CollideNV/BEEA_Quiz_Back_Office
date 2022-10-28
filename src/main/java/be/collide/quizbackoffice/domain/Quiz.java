@@ -58,12 +58,9 @@ public class Quiz {
 
         for (Question question : this.questions) {
             switch (question.getDifficulty()) {
-                case EASY:
-                    easyCount++;
-                case MEDIUM:
-                    mediumCount++;
-                case HARD:
-                    hardCount++;
+                case EASY -> easyCount++;
+                case MEDIUM -> mediumCount++;
+                case HARD -> hardCount++;
             }
         }
         if (this.questions.size() > 0) {

@@ -1,4 +1,4 @@
-package be.collide;
+package be.collide.resource;
 
 import be.collide.quizbackoffice.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @QuarkusTest
-public class QuizTest {
+public class QuizResourceTest {
 
     @Inject
     DynamoDbEnhancedClient client;
