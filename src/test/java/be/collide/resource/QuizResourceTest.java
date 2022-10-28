@@ -48,9 +48,15 @@ public class QuizResourceTest {
 
     @Test
     void createQuiz() {
+        // Check List is Empty
+        List<Quiz> allQuizes = given()
+                .when().get("/quizzes").then().statusCode(200).extract().jsonPath().getList(".", Quiz.class);
+
+        assertEquals(allQuizes.size(), 0);
+
+        // Add A Quiz
         Quiz quiz = new Quiz(null, "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), Collections.EMPTY_LIST);
         String url = given()
-                .log().uri()
                 .contentType("application/json")
                 .body(quiz)
                 .when().post("/quizzes")
@@ -58,6 +64,13 @@ public class QuizResourceTest {
                 .statusCode(201)
                 .extract().headers().get("Location").getValue();
 
+        // Check List is no longer Empty
+        allQuizes = given()
+                .when().get("/quizzes").then().statusCode(200).extract().jsonPath().getList(".", Quiz.class);
+
+        assertEquals(allQuizes.size(), 1);
+
+        // Retrieve and verify added Quiz
         ValidatableResponse validatableResponse = given()
                 .when().get(url)
                 .then()
@@ -68,6 +81,8 @@ public class QuizResourceTest {
         assertEquals(validatableResponse.extract().body().jsonPath().get("theme"), quiz.getTheme());
         assertEquals(validatableResponse.extract().body().jsonPath().get("questions"), quiz.getQuestions());
 
+
+        // Add A Question the the Quiz
         Question question = new Question(UUID.randomUUID(), "Is this a good question?", Difficulty.EASY, 15, List.of(new Answer(UUID.randomUUID(), "Yes", true), new Answer(UUID.randomUUID(), "No", false)));
 
         Quiz updatedQuiz = new Quiz(UUID.fromString(validatableResponse.extract().body().jsonPath().get("id")), "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), List.of(question));
@@ -87,12 +102,20 @@ public class QuizResourceTest {
 
         assertEquals(retrievedQuizAfterUpdate.getQuestions(), updatedQuiz.getQuestions());
 
+        //Delete Quiz
         given().when().delete(url).then().statusCode(204);
 
         given()
                 .when().get(url)
                 .then()
                 .statusCode(404);
+
+
+        // Check list is empty again
+        allQuizes = given()
+                .when().get("/quizzes").then().statusCode(200).extract().jsonPath().getList(".", Quiz.class);
+
+        assertEquals(allQuizes.size(), 1);
 
     }
 }
