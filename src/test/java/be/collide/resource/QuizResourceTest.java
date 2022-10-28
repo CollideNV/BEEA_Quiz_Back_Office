@@ -44,6 +44,7 @@ public class QuizResourceTest {
     @AfterEach
     void tearDown() {
         DynamoDbTable<Quiz> quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
+
         quizTable.deleteTable();
     }
 
