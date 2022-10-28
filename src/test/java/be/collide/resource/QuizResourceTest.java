@@ -115,7 +115,7 @@ public class QuizResourceTest {
         allQuizes = given()
                 .when().get("/quizzes").then().statusCode(200).extract().jsonPath().getList(".", Quiz.class);
 
-        assertEquals(allQuizes.size(), 1);
+        assertEquals(allQuizes.size(), 0);
 
     }
 }

@@ -7,6 +7,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
@@ -23,17 +24,19 @@ public class QuizServiceImpl implements QuizService {
     @Inject
     DynamoDbEnhancedClient client;
 
+    @PostConstruct
+    void postConstruct() {
+        quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
+    }
 
     @Override
     public List<Quiz> findAll() {
+
         return quizTable.scan().items().stream().collect(Collectors.toList());
     }
 
     @Override
     public void create(Quiz quiz) {
-
-
-        quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
 
 
         quiz.setId(UUID.randomUUID());
