@@ -1,8 +1,5 @@
 name: Mvn Install
 on:
-  push:
-    branches-ignore:
-      - main
   pull_request:
     branches:
       - main
