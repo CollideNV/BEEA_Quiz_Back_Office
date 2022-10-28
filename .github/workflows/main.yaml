@@ -14,6 +14,11 @@ jobs:
           components: 'native-image'
           cache: maven
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup DynamoDB Local
+        uses: rrainn/dynamodb-action@v2.0.1
+        with:
+          port: 8000
+          cors: '*'
       - name: Build with Maven
         run: mvn install -Dnative
       - name: Archive Target Directory
