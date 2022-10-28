@@ -41,4 +41,10 @@ public class QuizResource {
     public void update(@PathParam("id") UUID id, Quiz quiz) {
         service.update(id, quiz);
     }
+
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") UUID id) {
+        service.delete(id);
+    }
 }
