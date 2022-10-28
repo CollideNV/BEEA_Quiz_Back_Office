@@ -84,7 +84,7 @@ public class QuizResourceTest {
 
 
         // Add A Question the the Quiz
-        Question question = new Question(UUID.randomUUID(), "Is this a good question?", Difficulty.EASY, 15, List.of(new Answer(UUID.randomUUID(), "Yes", true), new Answer(UUID.randomUUID(), "No", false)));
+        Question question = new Question(null, "Is this a good question?", Difficulty.EASY, 15, List.of(new Answer(UUID.randomUUID(), "Yes", true), new Answer(UUID.randomUUID(), "No", false)));
 
         Quiz updatedQuiz = new Quiz(UUID.fromString(validatableResponse.extract().body().jsonPath().get("id")), "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), List.of(question));
 
@@ -101,7 +101,7 @@ public class QuizResourceTest {
                 .then()
                 .extract().as(Quiz.class);
 
-        Assertions.assertThat(retrievedQuizAfterUpdate.getQuestions()).usingRecursiveComparison().isEqualTo(updatedQuiz.getQuestions());
+        Assertions.assertThat(retrievedQuizAfterUpdate.getQuestions()).usingRecursiveComparison().ignoringFields("id").isEqualTo(updatedQuiz.getQuestions());
 
         //Delete Quiz
         given().when().delete(url).then().statusCode(204);
