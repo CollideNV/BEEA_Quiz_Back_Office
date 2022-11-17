@@ -35,10 +35,7 @@ public class QuizServiceImpl implements QuizService {
         return quizTable.scan().items().stream().collect(Collectors.toList());
     }
 
-    @Override
-    public void create(Quiz quiz) {
-
-
+    private static void generateIds(Quiz quiz) {
         if (quiz.getId() == null) quiz.setId(UUID.randomUUID());
         quiz.getQuestions().forEach(question -> {
             if (question.getId() == null) question.setId(UUID.randomUUID());
@@ -46,6 +43,13 @@ public class QuizServiceImpl implements QuizService {
                 if (answer.getId() == null) answer.setId(UUID.randomUUID());
             });
         });
+    }
+
+    @Override
+    public void create(Quiz quiz) {
+
+
+        generateIds(quiz);
 
         quiz.calculateDifficulty();
         quizTable.putItem(quiz);
@@ -59,21 +63,9 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void update(UUID id, Quiz quiz) {
-        Quiz quizToEdit = this.get(id);
-        quizToEdit.setTitle(quiz.getTitle());
-        quizToEdit.setTheme(quiz.getTheme());
-        quizToEdit.setType(quiz.getType());
-        quizToEdit.setBeginning(quiz.getBeginning());
-        quizToEdit.setEnding(quiz.getEnding());
-        quiz.getQuestions().forEach(question -> {
-            if (question.getId() == null) question.setId(UUID.randomUUID());
-            question.getAnswers().forEach(answer -> {
-                if (answer.getId() == null) answer.setId(UUID.randomUUID());
-            });
-        });
-        quizToEdit.setQuestions(quiz.getQuestions());
-        quizToEdit.calculateDifficulty();
-        quizTable.updateItem(quizToEdit);
+        generateIds(quiz);
+        quiz.calculateDifficulty();
+        quizTable.updateItem(quiz);
     }
 
     @Override
