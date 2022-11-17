@@ -47,10 +47,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void create(Quiz quiz) {
-
-
-        generateIds(quiz);
-
         quiz.calculateDifficulty();
         quizTable.putItem(quiz);
     }
@@ -63,7 +59,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void update(UUID id, Quiz quiz) {
-        generateIds(quiz);
         quiz.calculateDifficulty();
         quizTable.updateItem(quiz);
     }

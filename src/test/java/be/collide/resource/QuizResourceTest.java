@@ -53,8 +53,30 @@ public class QuizResourceTest {
         assertEquals(allQuizes.size(), 0);
 
         // Add A Quiz
-        Question q1 = new Question(null, "Is this a perfect question?", Difficulty.EASY, 15, List.of(new Answer(null, "Yes", true), new Answer(null, "No", false)));
-        Quiz quiz = new Quiz(null, "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), List.of(q1));
+        Question.builder()
+                .question("Is this a perfect question?")
+                .difficulty(Difficulty.EASY)
+                .timePerQuestion(15)
+                .answers(List.of(Answer.builder().answer("Yes").correct(true).build()
+                        , Answer.builder().answer("No").correct(false).build()))
+                .build();
+        Question q1 = Question.builder()
+                .question("Is this a perfect question?")
+                .difficulty(Difficulty.EASY)
+                .timePerQuestion(15)
+                .answers(List.of(Answer.builder().answer("Yes").correct(true).build()
+                        , Answer.builder().answer("No").correct(false).build()))
+                .build();
+
+        Quiz quiz = Quiz.builder()
+                .title("Test Quiz")
+                .theme("theme")
+                .type(QuizType.POLL)
+                .beginning(LocalDateTime.now())
+                .ending(LocalDateTime.now().plusDays(1))
+                .questions(List.of(q1))
+                .build();
+
         String url = given()
                 .contentType("application/json")
                 .body(quiz)
@@ -78,8 +100,12 @@ public class QuizResourceTest {
         assertThat(quizBeforeUpdate.getId()).isNotNull();
 
 
-        // Add A Question the the Quiz
-        quizBeforeUpdate.getQuestions().add(new Question(null, "Is this a good question?", Difficulty.EASY, 15, List.of(new Answer(null, "Yes", true), new Answer(null, "No", false))));
+        quizBeforeUpdate.getQuestions().add(Question.builder()
+                .question("Is this a good question?")
+                .difficulty(Difficulty.EASY)
+                .timePerQuestion(15)
+                .answers(List.of(Answer.builder().answer("Yes").correct(true).build(), Answer.builder().answer("No").correct(false).build()))
+                .build());
 
 
         given().body(quizBeforeUpdate)
