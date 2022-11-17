@@ -39,8 +39,14 @@ public class QuizServiceImpl implements QuizService {
     public void create(Quiz quiz) {
 
 
-        quiz.setId(UUID.randomUUID());
-        quiz.getQuestions().forEach(question -> question.setId(UUID.randomUUID()));
+        if (quiz.getId() == null) quiz.setId(UUID.randomUUID());
+        quiz.getQuestions().forEach(question -> {
+            if (question.getId() == null) question.setId(UUID.randomUUID());
+            question.getAnswers().forEach(answer -> {
+                if (answer.getId() == null) answer.setId(UUID.randomUUID());
+            });
+        });
+
         quiz.calculateDifficulty();
         quizTable.putItem(quiz);
     }
@@ -61,6 +67,9 @@ public class QuizServiceImpl implements QuizService {
         quizToEdit.setEnding(quiz.getEnding());
         quiz.getQuestions().forEach(question -> {
             if (question.getId() == null) question.setId(UUID.randomUUID());
+            question.getAnswers().forEach(answer -> {
+                if (answer.getId() == null) answer.setId(UUID.randomUUID());
+            });
         });
         quizToEdit.setQuestions(quiz.getQuestions());
         quizToEdit.calculateDifficulty();
