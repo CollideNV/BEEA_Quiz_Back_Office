@@ -35,16 +35,6 @@ public class QuizServiceImpl implements QuizService {
         return quizTable.scan().items().stream().collect(Collectors.toList());
     }
 
-    private static void generateIds(Quiz quiz) {
-        if (quiz.getId() == null) quiz.setId(UUID.randomUUID());
-        quiz.getQuestions().forEach(question -> {
-            if (question.getId() == null) question.setId(UUID.randomUUID());
-            question.getAnswers().forEach(answer -> {
-                if (answer.getId() == null) answer.setId(UUID.randomUUID());
-            });
-        });
-    }
-
     @Override
     public void create(Quiz quiz) {
         quiz.calculateDifficulty();
