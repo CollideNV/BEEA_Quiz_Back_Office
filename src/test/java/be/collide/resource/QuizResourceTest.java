@@ -2,8 +2,6 @@ package be.collide.resource;
 
 import be.collide.quizbackoffice.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.response.ValidatableResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +11,11 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @QuarkusTest
@@ -57,7 +53,24 @@ public class QuizResourceTest {
         assertEquals(allQuizes.size(), 0);
 
         // Add A Quiz
-        Quiz quiz = new Quiz(null, "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), Collections.EMPTY_LIST);
+
+        Question q1 = Question.builder()
+                .question("Is this a perfect question?")
+                .difficulty(Difficulty.EASY)
+                .timePerQuestion(15)
+                .answers(List.of(Answer.builder().answer("Yes").correct(true).build()
+                        , Answer.builder().answer("No").correct(false).build()))
+                .build();
+
+        Quiz quiz = Quiz.builder()
+                .title("Test Quiz")
+                .theme("theme")
+                .type(QuizType.POLL)
+                .beginning(LocalDateTime.now())
+                .ending(LocalDateTime.now().plusDays(1))
+                .questions(List.of(q1))
+                .build();
+
         String url = given()
                 .contentType("application/json")
                 .body(quiz)
@@ -73,28 +86,27 @@ public class QuizResourceTest {
         assertEquals(allQuizes.size(), 1);
 
         // Retrieve and verify added Quiz
-        ValidatableResponse validatableResponse = given()
+        Quiz quizBeforeUpdate = given()
                 .when().get(url)
                 .then()
-                .statusCode(200);
+                .statusCode(200).extract().as(Quiz.class);
 
-        assertNotNull(validatableResponse.extract().body().jsonPath().get("id"));
-        assertEquals(validatableResponse.extract().body().jsonPath().get("title"), quiz.getTitle());
-        assertEquals(validatableResponse.extract().body().jsonPath().get("theme"), quiz.getTheme());
-        assertEquals(validatableResponse.extract().body().jsonPath().get("questions"), quiz.getQuestions());
+        assertThat(quizBeforeUpdate.getId()).isNotNull();
 
 
-        // Add A Question the the Quiz
-        Question question = new Question(null, "Is this a good question?", Difficulty.EASY, 15, List.of(new Answer(UUID.randomUUID(), "Yes", true), new Answer(UUID.randomUUID(), "No", false)));
+        quizBeforeUpdate.getQuestions().add(Question.builder()
+                .question("Is this a good question?")
+                .difficulty(Difficulty.EASY)
+                .timePerQuestion(15)
+                .answers(List.of(Answer.builder().answer("Yes").correct(true).build(), Answer.builder().answer("No").correct(false).build()))
+                .build());
 
-        Quiz updatedQuiz = new Quiz(UUID.fromString(validatableResponse.extract().body().jsonPath().get("id")), "Test Quiz", "theme", QuizType.POLL, Difficulty.EASY, LocalDateTime.now(), LocalDateTime.now().plusDays(1), List.of(question));
 
-        given().body(updatedQuiz)
+        given().body(quizBeforeUpdate)
                 .contentType("application/json")
                 .when().put(url)
                 .then()
                 .statusCode(204);
-
 
 
         Quiz retrievedQuizAfterUpdate = given()
@@ -102,7 +114,8 @@ public class QuizResourceTest {
                 .then()
                 .extract().as(Quiz.class);
 
-        Assertions.assertThat(retrievedQuizAfterUpdate.getQuestions()).usingRecursiveComparison().ignoringFields("id").isEqualTo(updatedQuiz.getQuestions());
+        assertThat(retrievedQuizAfterUpdate.getQuestions()).usingRecursiveComparison().ignoringFields("id", "answers.id").isEqualTo(quizBeforeUpdate.getQuestions());
+        assertThat(retrievedQuizAfterUpdate.getQuestions()).flatExtracting("answers").extracting("id").doesNotContainNull();
 
         //Delete Quiz
         given().when().delete(url).then().statusCode(204);

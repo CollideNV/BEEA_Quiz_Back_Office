@@ -37,10 +37,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void create(Quiz quiz) {
-
-
-        quiz.setId(UUID.randomUUID());
-        quiz.getQuestions().forEach(question -> question.setId(UUID.randomUUID()));
         quiz.calculateDifficulty();
         quizTable.putItem(quiz);
     }
@@ -53,18 +49,8 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void update(UUID id, Quiz quiz) {
-        Quiz quizToEdit = this.get(id);
-        quizToEdit.setTitle(quiz.getTitle());
-        quizToEdit.setTheme(quiz.getTheme());
-        quizToEdit.setType(quiz.getType());
-        quizToEdit.setBeginning(quiz.getBeginning());
-        quizToEdit.setEnding(quiz.getEnding());
-        quiz.getQuestions().forEach(question -> {
-            if (question.getId() == null) question.setId(UUID.randomUUID());
-        });
-        quizToEdit.setQuestions(quiz.getQuestions());
-        quizToEdit.calculateDifficulty();
-        quizTable.updateItem(quizToEdit);
+        quiz.calculateDifficulty();
+        quizTable.updateItem(quiz);
     }
 
     @Override
