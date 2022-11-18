@@ -53,13 +53,7 @@ public class QuizResourceTest {
         assertEquals(allQuizes.size(), 0);
 
         // Add A Quiz
-        Question.builder()
-                .question("Is this a perfect question?")
-                .difficulty(Difficulty.EASY)
-                .timePerQuestion(15)
-                .answers(List.of(Answer.builder().answer("Yes").correct(true).build()
-                        , Answer.builder().answer("No").correct(false).build()))
-                .build();
+
         Question q1 = Question.builder()
                 .question("Is this a perfect question?")
                 .difficulty(Difficulty.EASY)
