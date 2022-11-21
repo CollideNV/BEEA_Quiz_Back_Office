@@ -25,11 +25,6 @@ jobs:
         with:
           name: report.xml
           path: ${{ github.workspace }}/target/jacoco-report/jacoco.xml
-      - name: Upload openapi.json
-        uses: actions/upload-artifact@v3
-        with:
-          name: spec-file
-          path: ${{ github.workspace }}/target/swagger.json
 
       - name: Jacoco Report to PR
         id: jacoco
@@ -45,22 +40,3 @@ jobs:
         run: |
           echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
           echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
-
-  deploy:
-    needs: build-mvn
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download swagger.json
-        uses: actions/download-artifact@v3
-        with:
-          name: spec-file
-      - name: Generate Swagger UI
-        uses: Legion2/swagger-ui-action@v1
-        with:
-          output: swagger-ui
-          spec-file: swagger.json
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: swagger-ui
