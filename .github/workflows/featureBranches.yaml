@@ -47,7 +47,7 @@ jobs:
           echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
   deploy:
-    needs: generate-openapi-spec
+    needs: build-mvn
     runs-on: ubuntu-latest
     steps:
       - name: Download swagger.json
