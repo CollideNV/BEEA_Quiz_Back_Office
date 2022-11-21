@@ -1,6 +1,7 @@
 package be.collide.quizbackoffice.service;
 
 import be.collide.quizbackoffice.domain.Quiz;
+import be.collide.quizbackoffice.domain.QuizService;
 import be.collide.quizbackoffice.exception.ResourceNotFound;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -31,7 +32,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> findAll() {
-
         return quizTable.scan().items().stream().collect(Collectors.toList());
     }
 

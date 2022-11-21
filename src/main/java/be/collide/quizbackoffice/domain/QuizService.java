@@ -1,6 +1,4 @@
-package be.collide.quizbackoffice.service;
-
-import be.collide.quizbackoffice.domain.Quiz;
+package be.collide.quizbackoffice.domain;
 
 import java.util.List;
 import java.util.UUID;

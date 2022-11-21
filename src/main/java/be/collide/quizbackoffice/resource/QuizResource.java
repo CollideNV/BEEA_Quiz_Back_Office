@@ -1,7 +1,7 @@
 package be.collide.quizbackoffice.resource;
 
 import be.collide.quizbackoffice.domain.Quiz;
-import be.collide.quizbackoffice.service.QuizService;
+import be.collide.quizbackoffice.domain.QuizService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

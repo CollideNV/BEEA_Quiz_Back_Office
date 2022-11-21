@@ -79,4 +79,10 @@ public class Quiz {
             }
         }
     }
+
+    public enum QuizType {
+        LIVE,
+        REGULAR,
+        POLL
+    }
 }

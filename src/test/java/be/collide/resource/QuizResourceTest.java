@@ -1,6 +1,9 @@
 package be.collide.resource;
 
-import be.collide.quizbackoffice.domain.*;
+import be.collide.quizbackoffice.domain.Answer;
+import be.collide.quizbackoffice.domain.Difficulty;
+import be.collide.quizbackoffice.domain.Question;
+import be.collide.quizbackoffice.domain.Quiz;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +68,7 @@ public class QuizResourceTest {
         Quiz quiz = Quiz.builder()
                 .title("Test Quiz")
                 .theme("theme")
-                .type(QuizType.POLL)
+                .type(Quiz.QuizType.POLL)
                 .beginning(LocalDateTime.now())
                 .ending(LocalDateTime.now().plusDays(1))
                 .questions(List.of(q1))
