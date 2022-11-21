@@ -1,0 +1,202 @@
+{
+  "openapi" : "3.0.1",
+  "paths" : {
+    "/quizzes" : {
+      "get" : {
+        "operationId" : "getAll",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Quiz"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "add",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Quiz"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes/{id}" : {
+      "get" : {
+        "operationId" : "getSingle",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Quiz"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Quiz"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "delete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Answer" : {
+        "type" : "object",
+        "properties" : {
+          "answer" : {
+            "type" : "string"
+          },
+          "correct" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }
+      },
+      "Question" : {
+        "type" : "object",
+        "properties" : {
+          "answers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Answer"
+            }
+          },
+          "difficulty" : {
+            "type" : "string",
+            "enum" : [ "EASY", "MEDIUM", "HARD" ]
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "question" : {
+            "type" : "string"
+          },
+          "timePerQuestion" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "Quiz" : {
+        "type" : "object",
+        "properties" : {
+          "beginning" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "difficulty" : {
+            "type" : "string",
+            "enum" : [ "EASY", "MEDIUM", "HARD" ]
+          },
+          "ending" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "questions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Question"
+            }
+          },
+          "theme" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string",
+            "enum" : [ "LIVE", "REGULAR", "POLL" ]
+          }
+        }
+      }
+    }
+  }
+}
