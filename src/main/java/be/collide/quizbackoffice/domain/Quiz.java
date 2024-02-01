@@ -68,7 +68,7 @@ public class Quiz {
                 case HARD -> hardCount++;
             }
         }
-        if (this.questions.size() > 0) {
+        if (!this.questions.isEmpty()) {
             long averageWeightedDifficulty = (easyCount * easyWeight + mediumCount * mediumWeight + hardCount * hardWeight) / this.questions.size();
             if (averageWeightedDifficulty < 1.75) {
                 this.setDifficulty(Difficulty.EASY);
