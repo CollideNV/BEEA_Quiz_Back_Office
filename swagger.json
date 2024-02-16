@@ -122,31 +122,21 @@
       "Answer" : {
         "type" : "object",
         "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
           "answer" : {
             "type" : "string"
           },
           "correct" : {
             "type" : "boolean"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
           }
         }
       },
       "Question" : {
         "type" : "object",
         "properties" : {
-          "answers" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Answer"
-            }
-          },
-          "difficulty" : {
-            "type" : "string",
-            "enum" : [ "EASY", "MEDIUM", "HARD" ]
-          },
           "id" : {
             "type" : "string",
             "format" : "uuid"
@@ -154,46 +144,56 @@
           "question" : {
             "type" : "string"
           },
+          "difficulty" : {
+            "type" : "string",
+            "enum" : [ "EASY", "MEDIUM", "HARD" ]
+          },
           "timePerQuestion" : {
             "type" : "integer",
             "format" : "int32"
+          },
+          "answers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Answer"
+            }
           }
         }
       },
       "Quiz" : {
         "type" : "object",
         "properties" : {
-          "beginning" : {
+          "id" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "uuid"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "theme" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string",
+            "enum" : [ "LIVE", "REGULAR", "POLL" ]
           },
           "difficulty" : {
             "type" : "string",
             "enum" : [ "EASY", "MEDIUM", "HARD" ]
           },
-          "ending" : {
+          "beginning" : {
             "type" : "string",
             "format" : "date-time"
           },
-          "id" : {
+          "ending" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "date-time"
           },
           "questions" : {
             "type" : "array",
             "items" : {
               "$ref" : "#/components/schemas/Question"
             }
-          },
-          "theme" : {
-            "type" : "string"
-          },
-          "title" : {
-            "type" : "string"
-          },
-          "type" : {
-            "type" : "string",
-            "enum" : [ "LIVE", "REGULAR", "POLL" ]
           }
         }
       }
