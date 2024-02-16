@@ -2,10 +2,10 @@ package be.collide.quizbackoffice.resource;
 
 import be.collide.quizbackoffice.domain.Quiz;
 import be.collide.quizbackoffice.service.QuizService;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
 import java.util.List;
 import java.util.UUID;
 

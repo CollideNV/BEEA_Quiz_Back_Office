@@ -1,15 +1,15 @@
 package be.collide.quizbackoffice.service;
 
 import be.collide.quizbackoffice.domain.Quiz;
-import be.collide.quizbackoffice.exception.ResourceNotFound;
+import be.collide.quizbackoffice.exception.ResourceNotFoundException;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,7 +44,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz get(UUID id) {
         return Optional.ofNullable(quizTable.getItem(Key.builder().partitionValue(id.toString()).build()))
-                .orElseThrow(() -> new ResourceNotFound("Quiz with id %s not found!".formatted(id)));
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz with id %s not found!".formatted(id)));
     }
 
     @Override

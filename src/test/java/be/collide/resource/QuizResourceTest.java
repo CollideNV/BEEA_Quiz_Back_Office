@@ -2,6 +2,7 @@ package be.collide.resource;
 
 import be.collide.quizbackoffice.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +34,6 @@ public class QuizResourceTest {
                         .writeCapacityUnits(10L)
                         .build())
         );
-
     }
 
     @AfterEach
