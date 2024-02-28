@@ -7,7 +7,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 jobs:
   mvn-verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -29,7 +29,7 @@ jobs:
           path: ${{ github.workspace }}/target/swagger.json
   deploy-swagger-ui:
     needs: mvn-verify
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Download swagger.json
         uses: actions/download-artifact@v3
@@ -46,7 +46,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: swagger-ui
   build-native:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: graalvm/setup-graalvm@v1
@@ -71,7 +71,7 @@ jobs:
           path: target
   deploy-to-aws:
     needs: build-native
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - name: Download Target Directory
