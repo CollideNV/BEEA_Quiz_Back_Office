@@ -15,11 +15,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'adopt'
-      - name: Setup DynamoDB Local
-        uses: rrainn/dynamodb-action@v2.0.1
-        with:
-          port: 8000
-          cors: '*'
       - name: Build with Maven
         run: mvn verify
       - name: Upload openapi.json

@@ -2,13 +2,7 @@ package be.collide.resource;
 
 import be.collide.quizbackoffice.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
-import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,27 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @QuarkusTest
 public class QuizResourceTest {
 
-    @Inject
-    DynamoDbEnhancedClient client;
-
-    @BeforeEach
-    void setUp() {
-        DynamoDbTable<Quiz> quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
-
-        quizTable.createTable(builder -> builder
-                .provisionedThroughput(b -> b
-                        .readCapacityUnits(10L)
-                        .writeCapacityUnits(10L)
-                        .build())
-        );
-    }
-
-    @AfterEach
-    void tearDown() {
-        DynamoDbTable<Quiz> quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
-
-        quizTable.deleteTable();
-    }
 
     @Test
     void createQuiz() {

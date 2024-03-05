@@ -5,10 +5,12 @@ import be.collide.quizbackoffice.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
+@Slf4j
 public class QuizServiceImpl implements QuizService {
 
     private DynamoDbTable<Quiz> quizTable;
@@ -27,6 +30,17 @@ public class QuizServiceImpl implements QuizService {
     @PostConstruct
     void postConstruct() {
         quizTable = client.table("Quiz", TableSchema.fromBean(Quiz.class));
+
+        try {
+            quizTable.createTable(builder -> builder
+                    .provisionedThroughput(b -> b
+                            .readCapacityUnits(10L)
+                            .writeCapacityUnits(10L)
+                            .build())
+            );
+        } catch (ResourceInUseException e) {
+            log.debug("Dit not recreate Quiz table as it already exists");
+        }
     }
 
     @Override
